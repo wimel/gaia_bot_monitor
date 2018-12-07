@@ -15,10 +15,10 @@ const bot = new Telegraf(process.env.BOT_TOKEN)
 const hexcosvaladdrpattern = RegExp(/[0-9A-F]{40}/)
 const hexcosvaladdrpattern2 = RegExp(/[0-9A-F]{40}$/)
 
-bot.start((ctx) => ctx.reply('Welcome'))
-bot.help((ctx) => ctx.reply('This is a bot that will notify you when something happened in the Gaia chain. For more, goto https://github.com/forbole/gaia_bot_monitor'))
+bot.start((ctx) => ctx.reply('Bienvenido'))
+bot.help((ctx) => ctx.reply('Este es un bot que te notificará cuando algo suceda en la cadena Gaia. Para más información, visite https://github.com/forbole/gaia_bot_monitor'))
 bot.on('sticker', (ctx) => ctx.reply('👍'))
-bot.hears('hi', (ctx) => ctx.reply('Hey there'))
+bot.hears('hi', (ctx) => ctx.reply('Hola por ahí'))
 
 async function run_cmd(command) {
     const {stdout, stderr} = await exec(command, { shell: true });
@@ -83,7 +83,7 @@ bot.command('/unsubscribe', async(ctx, next) => {
     valaddr = texts[1]
 
     if (typeof valaddr == 'undefined') {
-        ctx.reply("Usage: /unsubscribe [hexvaladdress]")
+        ctx.reply("Uso: /unsubscribe [hexvaladdress]")
     } else if (hexcosvaladdrpattern2.test(valaddr)) {
 
         valaddr = valaddr.replace(/\n/, '')
@@ -100,7 +100,7 @@ bot.command('/unsubscribe', async(ctx, next) => {
             collection.find(query).toArray(function(err, result) {
                 if (err) throw err;
                 if (result.length <= 0) {
-                    ctx.reply("You have not subscribed this validator yet")
+                    ctx.reply("No estás suscrito a este validador aún")
                     client.close();
                 } else {
                     // if not yet subscribe, add it
@@ -126,9 +126,9 @@ bot.command("/mute", async(ctx, next) => {
     type = texts[2]
 
     if (typeof valaddr == 'undefined' || typeof type == 'undefined') {
-        ctx.reply("Usage: /mute [hexvaladdress] [absent|slashed|revoked]")
+        ctx.reply("Uso: /mute [hexvaladdress] [absent|slashed|revoked]")
     } else if (type != "absent" && type != "slashed" && type != "revoked") {
-        ctx.reply("wrong type. [absent|slashed|revoked]")
+        ctx.reply("Tipo erroneo. [absent|slashed|revoked]")
     } else if (hexcosvaladdrpattern.test(valaddr)) {
 
         valaddr = valaddr.replace(/\n/, '')
@@ -150,15 +150,15 @@ bot.command("/mute", async(ctx, next) => {
                 collection.updateOne(query, newvalue, function(err, res) {
                     if(err) throw err
                     console.log("updated")
-                    ctx.reply("Validator address " + valaddr + " is muted on type " + type)
+                    ctx.reply("La address del validador " + valaddr + " está muteado en " + type)
                     client.close()
                 });
             } else {
-                ctx.reply("You didn't subscribe validator " + valaddr + " yet")
+                ctx.reply("No estás suscrito al validador" + valaddr + " aún")
             }
         });
     } else {
-        ctx.reply("Wrong validator address, cannot be muted")
+        ctx.reply("Address de validador incorrecta, no puede ser muteada")
     }
 })
 
@@ -170,9 +170,9 @@ bot.command("/unmute", async(ctx, next) => {
     type = texts[2]
 
     if (typeof valaddr == 'undefined' || typeof type == 'undefined') {
-        ctx.reply("Usage: /unmute [hexvaladdress] [absent|slashed|revoked]")
+        ctx.reply("Uso: /unmute [hexvaladdress] [absent|slashed|revoked]")
     } else if (type != "absent" && type != "slashed" && type != "revoked") {
-        ctx.reply("wrong type. [absent|slashed|revoked]")
+        ctx.reply("Tipo erroneo. [absent|slashed|revoked]")
     } else if (hexcosvaladdrpattern.test(valaddr)) {
 
         valaddr = valaddr.replace(/\n/, '')
@@ -194,15 +194,15 @@ bot.command("/unmute", async(ctx, next) => {
                 collection.updateOne(query, newvalue, function(err, res) {
                     if(err) throw err
                     console.log("updated")
-                    ctx.reply("Validator address " + valaddr + " is unmuted on type " + type)
+                    ctx.reply("La address del validador " + valaddr + " no está silenciada en tipo " + type)
                     client.close()
                 });
             } else {
-                ctx.reply("You didn't subscribe validator " + valaddr + " yet")
+                ctx.reply("No ests suscrito al validador " + valaddr + " aún")
             }
         });
     } else {
-        ctx.reply("Wrong validator address, cannot be muted")
+        ctx.reply("Address de validador erronea, no puede ser silenciada")
     }
 })
 
@@ -212,7 +212,7 @@ bot.command("/hack", async(ctx, next) => {
     myinput = texts[1]
 
     if (typeof myinput == 'undefined') {
-        ctx.reply("Usage: /hack [cosmosvaladdress]")
+        ctx.reply("Uso: /hack [cosmosvaladdress]")
     } else if (cosvaladdrpattern.test(myinput)) {
         var cmd_debug = 'fbdebug addr ' + myinput + ' | grep Address | cut -d " " -f2'
         run_cmd(cmd_debug).then(function(result){
@@ -227,7 +227,7 @@ bot.command("/hack", async(ctx, next) => {
 // //        })
 //         ctx.reply("No hex to addr for now.")
     } else {
-        ctx.reply("Usage: /hack [cosmosvaladdress]")
+        ctx.reply("Uso: /hack [cosmosvaladdress]")
     }
 })
 
