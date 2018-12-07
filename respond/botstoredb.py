@@ -20,7 +20,7 @@ db = MongoClient(loginData)
 client = db.GaiaBotData
 collection = client.ValAddrID
 
-KEY="695435732:AAEAIO3cJMy85jwF7pUtUKXCo9-BX5vAF-w"
+KEY="732560631:AAFt9XynK74Ut8xGXK7_pd8NHl1ZMY503cw"
 TIME="10"
 URL="https://api.telegram.org/bot" + KEY + "/sendMessage"
 
